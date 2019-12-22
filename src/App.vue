@@ -2,17 +2,29 @@
   <div id="app">
     <HeaderComponent></HeaderComponent>
     <Slider></Slider>
+    <div class="cender">
+      <LastArticles></LastArticles>
+      <Sidebar></Sidebar>
+    </div>
+    <div class="clearfix"></div>
+      <FooterComponent></FooterComponent>
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/Header.vue'
+import FooterComponent from './components/FooterComponent'
+import LastArticles from './components/LastArticles'
 import Slider from './components/Slider.vue'
+import Sidebar from './components/Sidebar.vue'
 export default {
   name: 'app',
   components: {
     HeaderComponent,
-    Slider
+    FooterComponent,
+    LastArticles,
+    Slider,
+    Sidebar
   }
 }
 </script>
