@@ -1,13 +1,16 @@
 <template>
   <div class="general">
-    <Slider texto="Bienvenido a esta página de VueJS" home="true"></Slider>
+    <Slider :texto="'Busqueda: ' + searchString"></Slider>
     <div class="center">
       <section id="content">
-        <h2 class="subheader">Últimos artículos</h2>
-        <!--Listado articulos-->
-        <div id="articles">
-           <Articles :articles="articles"></Articles>
-          <!--AÑADIR ARTICULOS VIA JS-->
+        <h1 class="subheader" v-if="articles">Artículos encontrados</h1>
+        <h1 class="subheader" v-else>Sin resultados</h1>
+        
+        <div id="articles" v-if="articles">
+          <Articles :articles="articles"></Articles>
+        </div>
+        <div v-else>
+          <h2>No hay artículos que coincidan con tu búsqueda</h2>
         </div>
       </section>
     </div>
@@ -23,7 +26,7 @@ import Sidebar from "./Sidebar.vue";
 import Articles from "./Articles.vue";
 
 export default {
-  name: "LastArticles",
+  name: "Search",
   components: {
     Articles,
     Slider,
@@ -32,15 +35,17 @@ export default {
   data(){
     return {
       url: Global.url,
-      articles: []
+      articles: [],
+      searchString: null
     }
   },
   mounted(){
-    this.getArticles();
+    this.searchString = this.$route.params.searchString;
+    this.getArticlesBySearch(this.searchString);
   },
   methods: {
-    getArticles(){
-      axios.get(this.url + 'articles/true')
+    getArticlesBySearch(searchString){
+      axios.get(this.url + 'search/' + searchString)
       .then(res => {
         if (res.data.status == 'success') {
           this.articles = res.data.articles;
